@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ink & Dermis Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+body{margin:0;background:#f5f2ec;font-family:system-ui;display:flex;height:100vh}
+.sidebar{width:340px;padding:20px;background:#fff;border-right:1px solid #ddd;box-sizing:border-box;overflow:auto}
+.previewWrap{flex:1;display:flex;justify-content:center;align-items:center;padding:20px}
+textarea,input,button{width:100%;box-sizing:border-box;padding:12px;margin:10px 0;border-radius:10px;border:1px solid #ddd;font-size:16px}
+button{background:#111;color:#fff;cursor:pointer}
+#card{
+width:540px;height:675px;
+background:#f7f4ee;
+background-image:
+radial-gradient(rgba(0,0,0,.04) 0.8px, transparent 0.8px),
+radial-gradient(rgba(0,0,0,.025) 0.8px, transparent 0.8px);
+background-size:8px 8px,13px 13px;
+background-position:0 0,4px 4px;
+padding:60px;box-sizing:border-box;
+display:flex;flex-direction:column;justify-content:center;align-items:center;
+text-align:center;
+}
+.quote{font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1.35;color:#111;max-width:100%}
+.author{margin-top:24px;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic}
+.line{margin-top:35px;width:60%;border-top:1px solid #777}
+.brand{margin-top:20px;font-family:'Great Vibes',cursive;font-size:42px}
+.qmark{font-size:46px;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h2>Ink & Dermis Studio</h2>
+<label>Quote</label>
+<textarea id="quoteInput" rows="8">Your quote goes here.</textarea>
+<label>Author</label>
+<input id="authorInput" value="Unknown">
+<button onclick="update()">Update Preview</button>
+<button onclick="exportPNG()">Export PNG</button>
+<p>Open this file in Safari or Chrome on your Mac or iPhone.</p>
+</div>
+<div class="previewWrap">
+<div id="card">
+<div class="qmark">❝</div>
+<div id="quote" class="quote"></div>
+<div class="qmark" style="margin-top:18px">❞</div>
+<div id="author" class="author"></div>
+<div class="line"></div>
+<div class="brand">Ink &amp; Dermis</div>
+</div>
+</div>
+<script>
+function fit(){
+ const q=document.getElementById('quote');
+ let s=34;
+ q.style.fontSize=s+'px';
+ while(q.scrollHeight>220 && s>22){s--;q.style.fontSize=s+'px';}
+}
+function update(){
+ quote.textContent=quoteInput.value;
+ author.textContent='— '+authorInput.value;
+ fit();
+}
+async function exportPNG(){
+ update();
+ const canvas=await html2canvas(document.getElementById('card'),{scale:4});
+ const a=document.createElement('a');
+ a.download='Ink-and-Dermis-Quote.png';
+ a.href=canvas.toDataURL('image/png');
+ a.click();
+}
+update();
+</script>
+</body>
+</html>
